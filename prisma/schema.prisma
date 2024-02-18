@@ -43,7 +43,6 @@ model ApiKey {
   expiresAt DateTime?
   enabled   Boolean   @default(true)
   expired   Boolean   @default(false)
-  keyenable Boolean   @default(false)
 }
 
 enum Role {

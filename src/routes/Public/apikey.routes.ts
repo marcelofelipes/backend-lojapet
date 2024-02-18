@@ -9,7 +9,7 @@ export default async function (app: FastifyInstance, opts: RouteOptions) {
   app.post<{ Body: ApiKeyCreate }>('/apikey', async (req: FastifyRequest, res: FastifyReply) => {
     const { key, userId } = req.body as ApiKeyCreate;
     try {
-      const data = await apiKeyUseCase.create(key as string, userId as string); // Pass both key and userId as arguments
+      const data = await apiKeyUseCase.create(userId as string); // Pass both key and userId as arguments
       return res.status(201).send(data);
     } catch (error: any) {
       if (error instanceof ErrorREST) {
