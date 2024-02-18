@@ -5,9 +5,8 @@ import { ApiKeyUseCase } from "@usecases/apikey.usecase";
 import { FastifyInstance, FastifyReply, FastifyRequest, RouteOptions } from "fastify";
 export default async function (app: FastifyInstance, opts: RouteOptions) {
   const apiKeyUseCase = new ApiKeyUseCase();
-
+  app.addHook('preHandler', authapi); // Add the authapi middleware to the route
   app.post<{ Body: ApiKeyCreate }>('/apikey', async (req: FastifyRequest, res: FastifyReply) => {
-    app.addHook('preHandler', authapi); // Add the authapi middleware to the route
     const { key, userId } = req.body as ApiKeyCreate;
     try {
       const data = await apiKeyUseCase.create(userId as string); // Pass both key and userId as arguments
