@@ -1,0 +1,43 @@
+# Backend para Loja de Produtos PET
+
+Este projeto consiste em um backend para uma loja de produtos destinados a animais de estimação. O backend oferece funcionalidades essenciais para gerenciar produtos e acessar informações relevantes sobre eles.
+
+## Requisitos Obrigatórios
+
+### Requisitos Gerais
+
+- [ ] **Conexão com Banco de Dados:** Garantir uma conexão estável e segura com o banco de dados para armazenar e recuperar dados dos produtos.
+- [ ] **Rotas Públicas:** Implementar rotas acessíveis ao público para acesso a informações básicas sobre os produtos.
+- [ ] **Rotas Privadas:** Desenvolver rotas protegidas por autenticação para operações administrativas e acesso a dados sensíveis.
+
+### Requisitos Específicos da Loja de Produtos PET
+
+- [ ] **Listar todos os Produtos:** Criar uma rota para retornar uma lista completa de todos os produtos disponíveis na loja, incluindo detalhes como nome do item, foto, preço e quantidade em estoque.
+
+### Outros Requisitos Importantes
+
+- [ ] **Validação de Dados:** Implementar validação de entrada de dados para garantir consistência e segurança.
+- [ ] **Segurança:** Aplicar medidas de segurança, como criptografia, para proteger informações sensíveis.
+- [ ] **Logs de Erro:** Registrar logs de erros para facilitar a depuração e solução de problemas.
+- [ ] **Documentação da API:** Criar documentação clara e detalhada da API, descrevendo todas as rotas disponíveis e seus parâmetros.
+- [ ] **Testes Automatizados:** Desenvolver testes automatizados para garantir a estabilidade e a confiabilidade do sistema.
+
+## Como Utilizar
+
+1. **Instalação:**
+
+
+
+2. **Configuração do Banco de Dados:**
+- Configure as credenciais de acesso ao banco de dados no arquivo de configuração apropriado.
+- Certifique-se de criar a estrutura do banco de dados conforme necessário para armazenar os produtos.
+
+3. **Execução:**
+
+## Contribuição
+
+Contribuições são bem-vindas! Sinta-se à vontade para propor melhorias ou adicionar novos recursos ao projeto. Abra um problema para discutir grandes mudanças e envie uma solicitação de recebimento (pull request) para contribuições menores.
+
+## Licença
+
+Este projeto é licenciado sob a [MIT License](LICENSE).

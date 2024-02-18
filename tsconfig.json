@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@Config/*": [
+        "src/config/*"
+      ],
+      "@Routes/*": [
+        "src/routes/*"
+      ],
+      "@usecases/*": [
+        "src/usecases/*"
+      ],
+      "@repositories/*": [
+        "src/repositories/*"
+      ],
+      "@database/*": [
+        "src/database/*"
+      ],
+      "@middlewares/*": [
+        "src/middlewares/*"
+      ],
+      "@errors/*": [
+        "src/errors/*"
+      ],
+      "@test/*": [
+        "test/*"
+      ],
+      "@interfaces/*": [
+        "src/interfaces/*"
+      ],
+    }
+  }
+}
