@@ -8,7 +8,7 @@ class UserRepositoryPrisma implements UserRepository {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const user = await db.user.findUnique({ where: { email }, select: { id: true, email: true, password: false, name: true, createdAt: true, updatedAt: true, photo: true, role: true, apiKeys: true } });
+    const user = await db.user.findUnique({ where: { email }, select: { id: true, email: true, password: false, name: true, createdAt: true, updatedAt: true, photo: true, role: true, apiKeys: false } });
     return user;
   }
 
@@ -29,7 +29,7 @@ class UserRepositoryPrisma implements UserRepository {
 
   async findAll(): Promise<User[]> {
     const users = await db.user.findMany({
-      select: { id: true, email: true, name: true, createdAt: true, updatedAt: true, photo: true, role: true, apiKeys: true }
+      select: { id: true, email: true, name: true, createdAt: true, updatedAt: true, photo: true, role: true, apiKeys: false }
     });
     return users;
   }
