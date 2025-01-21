@@ -1,0 +1,103 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  node_version: '16.x'  # Versão do Node.js
+  docker_image_name: 'loja_pet'  # Nome da imagem Docker
+  container_registry: 'lojapet.azurecr.io'
+  container_registry_service_connection: 'AzureContainerRegistryConnection'
+  web_app_name: 'lojapet-backend-web-app' 
+
+stages:
+  - stage: InstallAndBuild
+    displayName: 'Install Dependencies and Build Project'
+    jobs:
+      - job: Build
+        displayName: 'Build NestJS Project'
+        steps:
+          - task: UseNode@2
+            inputs:
+              versionSpec: $(node_version)
+              addToPath: true
+
+          - checkout: self
+
+          # Instalar dependências
+          - script: |
+              curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+              pnpm install
+            displayName: 'Install Dependencies with pnpm'
+
+          # Compilar o projeto
+          - script: |
+              pnpm run build
+            displayName: 'Build the Project'
+
+  - stage: Test
+    displayName: 'Run Tests'
+    dependsOn: InstallAndBuild
+    jobs:
+      - job: RunTests
+        displayName: 'Run Unit Tests'
+        steps:
+          - task: UseNode@2
+            inputs:
+              versionSpec: $(node_version)
+              addToPath: true
+
+          - checkout: self
+
+          # Executar os testes
+          - script: |
+              pnpm run test
+            displayName: 'Run Tests with pnpm'
+
+  - stage: BuildAndPushDocker
+    displayName: 'Build and Push Docker Image'
+    dependsOn: Test
+    jobs:
+      - job: BuildAndPush
+        displayName: 'Build and Push Docker Image to ACR'
+        steps:
+          - checkout: self
+
+          # Login no Azure Container Registry
+          - task: Docker@2
+            inputs:
+              command: login
+              containerRegistry: $(container_registry_service_connection)
+
+          # Build da imagem Docker
+          - task: Docker@2
+            inputs:
+              command: build
+              Dockerfile: 'Dockerfile'
+              tags: |
+                $(docker_image_name):$(Build.BuildId)
+                $(docker_image_name):latest
+
+          # Push da imagem Docker para o ACR
+          - task: Docker@2
+            inputs:
+              command: push
+              tags: |
+                $(container_registry)/$(docker_image_name):$(Build.BuildId)
+                $(container_registry)/$(docker_image_name):latest
+
+  - stage: Deploy
+    displayName: 'Deploy to Azure Web App'
+    dependsOn: BuildAndPushDocker
+    jobs:
+      - job: DeployToAzure
+        displayName: 'Deploy Docker Image to Azure Web App'
+        steps:
+          - task: AzureWebAppContainer@1
+            inputs:
+              azureSubscription: 'AzureServiceConnection'
+              appName: $(web_app_name)
+              imageName: '$(container_registry)/$(docker_image_name):latest'
